@@ -10,7 +10,7 @@ class FormView extends Component {
       answer: '',
       difficulty: 1,
       category: 1,
-      categories: {},
+      categories: [],
     };
   }
 
@@ -30,8 +30,17 @@ class FormView extends Component {
   }
 
   submitQuestion = (event) => {
-    event.preventDefault();
-    $.ajax({
+    if (this.state.question === ""){
+      alert('question cannot be empty');
+      return;
+    }
+    if (this.state.answer === ""){
+      alert('answer cannot be empty');
+      return;
+    }
+
+  
+  $.ajax({
       url: '/questions', //TODO: update request URL
       type: 'POST',
       dataType: 'json',
@@ -91,10 +100,10 @@ class FormView extends Component {
           <label>
             Category
             <select name='category' onChange={this.handleChange}>
-              {Object.keys(this.state.categories).map((id) => {
+              {this.state.categories.map((item) => {
                 return (
-                  <option key={id} value={id}>
-                    {this.state.categories[id]}
+                  <option key={item.id} value={item.id}>
+                    {item.type}
                   </option>
                 );
               })}
