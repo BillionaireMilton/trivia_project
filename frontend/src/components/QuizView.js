@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import $ from 'jquery';
 import '../stylesheets/QuizView.css';
@@ -35,6 +36,8 @@ class QuizView extends Component {
   }
 
   selectCategory = ({ type, id = 0 }) => {
+    console.log('this is the category id')
+    console.log(id)
     this.setState({ quizCategory: { type, id } }, this.getNextQuestion);
   };
 
@@ -47,6 +50,10 @@ class QuizView extends Component {
     if (this.state.currentQuestion.id) {
       previousQuestions.push(this.state.currentQuestion.id);
     }
+    console.log(JSON.stringify({
+      previous_questions: previousQuestions,
+      quiz_category: this.state.quizCategory,
+    }));
 
     $.ajax({
       url: '/quizzes', //TODO: update request URL
@@ -69,6 +76,10 @@ class QuizView extends Component {
           guess: '',
           forceEnd: result.question ? false : true,
         });
+        console.log(JSON.stringify({
+          previous_questions: previousQuestions,
+          quiz_category: this.state.quizCategory,
+        }));
         return;
       },
       error: (error) => {

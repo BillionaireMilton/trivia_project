@@ -20,6 +20,8 @@ class QuestionView extends Component {
     this.getQuestions();
   }
 
+  
+
   getQuestions = () => {
     $.ajax({
       url: `/questions?page=${this.state.page}`, //TODO: update request URL
@@ -64,6 +66,8 @@ class QuestionView extends Component {
   }
 
   getByCategory = (id) => {
+    console.log('getting category')
+    console.log(id)
     $.ajax({
       url: `/categories/${id}/questions`, //TODO: update request URL
       type: 'GET',
@@ -114,9 +118,16 @@ class QuestionView extends Component {
   };
 
   returnCategory = (id) => {
+    // console.log("the id")
+    // console.log(id)
     for (var item of this.state.categories) {
-      if (item.id === id){
-        return item
+      // console.log(item.type)
+      if (item.id == id){
+        // console.log("this is the iteration result")
+        // console.log(item)
+        return item.type
+      } else {
+        // console.log("this is not the id")
       }
   }
 };
@@ -176,7 +187,7 @@ questionAction = (id) => (action) => {
               key={q.id}
               question={q.question}
               answer={q.answer}
-              category={ this.returnCategory(q.category)}
+              category={this.returnCategory(q.category)}
               difficulty={q.difficulty}
               questionAction={this.questionAction(q.id)}
             />
